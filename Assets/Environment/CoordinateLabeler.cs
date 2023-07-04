@@ -21,7 +21,7 @@ public class CoordinateLabeler : MonoBehaviour
     {
         gridManager = FindObjectOfType<GridManager>();
         label = GetComponent<TextMeshPro>();
-        label.enabled = true;
+        label.enabled = false;
 
         DisplayCoordinates();
     }
