@@ -120,6 +120,10 @@ public class Pathfinder : MonoBehaviour
 
     public bool WillBlockPath(Vector2Int coordinates)
     {
+        // restrict on start and destination
+        if (coordinates == startCoordinates) return true;
+        if (coordinates == destinationCoordinates) return true;
+
         if (grid.ContainsKey(coordinates))
         {
             bool previousState = grid[coordinates].isWalkable;
