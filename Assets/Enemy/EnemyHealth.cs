@@ -8,9 +8,7 @@ using static UnityEngine.ParticleSystem;
 public class EnemyHealth : MonoBehaviour
 {
     [SerializeField] int maxHitPoints = 5;
-    [SerializeField] AudioSource audioSource;
     [SerializeField] GameObject healthBar;
-    [SerializeField] GameObject mainCam;
 
     [Tooltip("Adds amount to maxHitPoints when enemy dies.")]
     [SerializeField] int difficultyRamp = 1;
@@ -19,13 +17,20 @@ public class EnemyHealth : MonoBehaviour
     ParticleSystem hitParticles;
 
     Enemy enemy;
+    AudioSource audioSource;
 
     Slider healthSlider;
     void OnEnable()
     {
         healthSlider = healthBar.GetComponent<Slider>();
         hitParticles = GetComponentInChildren<ParticleSystem>();
+        ResetHealth();
+    }
+
+    void ResetHealth()
+    {
         currentHitPoints = maxHitPoints;
+        healthSlider.maxValue = maxHitPoints;
         healthSlider.value = maxHitPoints;
     }
 
@@ -37,11 +42,9 @@ public class EnemyHealth : MonoBehaviour
 
     void LateUpdate()
     {
-        if (mainCam == null)
-        {
-            mainCam = GameObject.Find("Main Camera");
-        }
-        healthBar.transform.LookAt(healthBar.transform.position + mainCam.transform.forward);
+        Vector3 screenPosition = Camera.main.WorldToScreenPoint(transform.position);
+        screenPosition.y += 50f;
+        healthBar.transform.position = screenPosition;
     }
 
     void OnParticleCollision(GameObject other)
