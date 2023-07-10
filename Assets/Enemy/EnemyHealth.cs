@@ -18,12 +18,14 @@ public class EnemyHealth : MonoBehaviour
 
     Enemy enemy;
     AudioSource audioSource;
+    Canvas canvas;
 
     Slider healthSlider;
     void OnEnable()
     {
         healthSlider = healthBar.GetComponent<Slider>();
         hitParticles = GetComponentInChildren<ParticleSystem>();
+        canvas = GetComponentInChildren<Canvas>();
         ResetHealth();
     }
 
@@ -43,7 +45,7 @@ public class EnemyHealth : MonoBehaviour
     void LateUpdate()
     {
         Vector3 screenPosition = Camera.main.WorldToScreenPoint(transform.position);
-        screenPosition.y += 50f;
+        screenPosition.y += 60f * canvas.scaleFactor;
         healthBar.transform.position = screenPosition;
     }
 
